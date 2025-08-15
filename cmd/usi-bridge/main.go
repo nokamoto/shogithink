@@ -3,12 +3,12 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"net/http"
 	"os"
-	"strings"
 	"sync"
+
+	"github.com/nokamoto/shogithink/internal/usi"
 )
 
 var (
@@ -35,39 +35,17 @@ func startHTTPServer() {
 	http.ListenAndServe(":8080", nil)
 }
 
+type httpServerLogger struct{}
+
+func (httpServerLogger) Log(format string, args ...any) {
+	appendLog(fmt.Sprintf(format, args...))
+}
+
 func main() {
 	go startHTTPServer()
-	scanner := bufio.NewScanner(os.Stdin)
-	for scanner.Scan() {
-		line := scanner.Text()
-		appendLog("recv: " + line)
-		fields := strings.Fields(line)
-		if len(fields) == 0 {
-			continue
-		}
-		switch fields[0] {
-		case "usi":
-			fmt.Println("id name usi-bridge")
-			fmt.Println("id author github.com/nokamoto/shogithink")
-			fmt.Println("usiok")
-			appendLog("send: id name usi-bridge")
-			appendLog("send: id author github.com/nokamoto/shogithink")
-			appendLog("send: usiok")
-		case "isready":
-			fmt.Println("readyok")
-			appendLog("send: readyok")
-		case "position":
-			appendLog("position command received")
-		case "go":
-			fmt.Println("info score cp 0")
-			appendLog("send: info score cp 0")
-			fmt.Println("bestmove resign")
-			appendLog("send: bestmove resign")
-		case "quit":
-			appendLog("quit received, exiting")
-			return
-		default:
-			appendLog("unknown command: " + line)
-		}
+	logger := httpServerLogger{}
+	bridge := usi.NewBridge(logger, os.Stdin, os.Stdout)
+	if err := bridge.Run(); err != nil {
+		fmt.Fprintf(os.Stderr, "error: %v\n", err)
 	}
 }
