@@ -1,4 +1,7 @@
-# Updated Task Completion Workflow
+
+# Task Completion Workflow
+
+## Steps
 
 1. Ensure code is formatted (`mage format` for Go, PEP8 for Python).
 2. Run linting (`go vet` for Go, flake8 for Python if used).
@@ -9,4 +12,4 @@
 7. If MCP server is involved, ensure `.vscode/mcp.json` is updated and server is restarted if necessary.
 8. Use `mage all` to run all setup and formatting tasks.
 
-Update as more workflow steps are discovered.
+_Update as more workflow steps are discovered._
