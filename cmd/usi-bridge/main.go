@@ -4,46 +4,26 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 	"os"
-	"sync"
 
+	"github.com/nokamoto/shogithink/internal/boilerplate"
+	"github.com/nokamoto/shogithink/internal/observer"
 	"github.com/nokamoto/shogithink/internal/usi"
 )
 
-var (
-	logs   []string
-	logsMu sync.Mutex
-)
-
-func appendLog(s string) {
-	logsMu.Lock()
-	defer logsMu.Unlock()
-	logs = append(logs, s)
-}
-
-func logsHandler(w http.ResponseWriter, r *http.Request) {
-	logsMu.Lock()
-	defer logsMu.Unlock()
-	for _, log := range logs {
-		fmt.Fprintln(w, log)
-	}
-}
-
-func startHTTPServer() {
-	http.HandleFunc("/", logsHandler)
-	http.ListenAndServe(":8080", nil)
-}
-
-type httpServerLogger struct{}
-
-func (httpServerLogger) Log(format string, args ...any) {
-	appendLog(fmt.Sprintf(format, args...))
-}
-
 func main() {
-	go startHTTPServer()
-	logger := httpServerLogger{}
+	port, err := boilerplate.GetObserverPort(8080)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "error getting observer port: %v\n", err)
+		os.Exit(1)
+	}
+
+	logger, err := observer.New(port)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "error creating observer: %v\n", err)
+		os.Exit(1)
+	}
+
 	bridge := usi.NewBridge(logger, os.Stdin, os.Stdout)
 	if err := bridge.Run(); err != nil {
 		fmt.Fprintf(os.Stderr, "error: %v\n", err)

@@ -64,6 +64,7 @@ func (Go) Build() error {
 	}
 	commands := []string{
 		"usi-bridge",
+		"usi-mcp-server",
 	}
 	for _, cmd := range commands {
 		executable := fmt.Sprintf("%s/%s-%s-%s.exe", bin, cmd, goos, arch)
