@@ -1,28 +1,20 @@
-# Updated Suggested Commands
+Suggested Commands for Development:
 
-## Mage Automation
-- `mage python:venv` — Create Python virtual environment
-- `mage python:install` — Install `uv` package
-- `mage go:install` — Install Go tools (goimports, gofumpt, yamlfmt)
-- `mage go:tidy` — Clean up go.mod file
-- `mage format` — Run formatters (goimports, gofumpt, yamlfmt)
-- `mage` or `mage all` — Run all Mage tasks (install, format, tidy)
+# Go
+- mage go:install      # Install Go tools (goimports, gofumpt, yamlfmt)
+- mage format          # Format codebase
+- mage go:tidy         # Clean up go.mod
+- mage go:test         # Run Go tests
+- mage go:build        # Build Windows binary for usi-bridge
+- mage                 # Run all tasks (default: install, format, tidy, test, build)
 
-## Python Environment
-- `source .venv/bin/activate` — Activate Python virtual environment
+# Python (if needed)
+- mage python:venv     # Create Python virtual environment
+- mage python:install  # Install 'uv' package
 
-## Go
-- `go build` — Build the project
-- `go run` — Run Go programs
-- `go test` — Run Go tests
-- `go fmt` — Format Go code
-- `go vet` — Lint Go code
+# Running usi-bridge
+- go run ./cmd/usi-bridge/main.go   # Run USI engine (stdin/stdout, HTTP logs)
 
-## Utilities (Linux)
-- `git` — Version control
-- `ls`, `cd`, `grep`, `find` — File and directory management
+# Utilities
+- git, ls, cd, grep, find           # Standard Linux utilities
 
-## MCP Server
-- MCP server is started via `.vscode/mcp.json` configuration
-
-Add more commands as discovered.
