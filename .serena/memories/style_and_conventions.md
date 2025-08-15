@@ -1,19 +1,10 @@
-# Code Style and Conventions
+Code Style & Conventions:
+- Go code follows standard Go conventions.
+- Formatting is enforced using goimports and gofumpt (see Format task in magefiles/mage.go).
+- No explicit mention of type hints or docstrings beyond standard Go comments.
+- Python code (if any) uses standard Python conventions, with venv setup via Mage.
 
-## Go
-- Follows standard Go conventions: camelCase for variables/functions, PascalCase for exported symbols.
-- Use `go fmt` for formatting.
-- Use `go vet` for linting.
-- Comments should be complete sentences, starting with the name of the function/type.
-- No explicit type hints (Go is statically typed).
+Design Patterns:
+- Simple command-line and HTTP server pattern for usi-bridge.
+- Mage is used for task automation.
 
-## Python
-- Follows PEP8 style (if Python code is added): snake_case for variables/functions, PascalCase for classes.
-- Use docstrings for functions/classes.
-- Type hints recommended for clarity.
-
-## General
-- MIT License applies.
-- Use Mage for automation tasks.
-
-Update as more conventions are discovered.

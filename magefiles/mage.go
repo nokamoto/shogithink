@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/magefile/mage/mg"
 	"github.com/magefile/mage/sh"
@@ -50,6 +51,35 @@ func (Go) Test() error {
 	return sh.Run("go", "test", "./...")
 }
 
+// Build compiles the Go codebase into a binary for windows/amd64.
+// The binary will be placed in .bin/ directory.
+func (Go) Build() error {
+	const (
+		goos = "windows"
+		arch = "amd64"
+		bin  = ".bin"
+	)
+	if err := os.MkdirAll(bin, 0o755); err != nil {
+		return fmt.Errorf("failed to create %s directory: %w", bin, err)
+	}
+	commands := []string{
+		"usi-bridge",
+	}
+	for _, cmd := range commands {
+		executable := fmt.Sprintf("%s/%s-%s-%s.exe", bin, cmd, goos, arch)
+		main := fmt.Sprintf("./cmd/%s", cmd)
+		env := map[string]string{
+			"GOOS":   goos,
+			"GOARCH": arch,
+		}
+		if err := sh.RunWith(env, "go", "build", "-o", executable, main); err != nil {
+			return fmt.Errorf("failed to build %s: %w", cmd, err)
+		}
+		fmt.Printf("Built %s to %s\n", cmd, executable)
+	}
+	return nil
+}
+
 // Format runs formatters on the codebase.
 func Format() error {
 	formatters := [][]string{
@@ -72,5 +102,6 @@ func All() {
 		Format,
 		Go.Tidy,
 		Go.Test,
+		Go.Build,
 	)
 }
