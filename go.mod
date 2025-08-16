@@ -2,12 +2,13 @@ module github.com/nokamoto/shogithink
 
 go 1.24.5
 
-require github.com/magefile/mage v1.15.0
-
 require (
+	connectrpc.com/connect v1.18.1
 	github.com/google/go-cmp v0.7.0
+	github.com/magefile/mage v1.15.0
 	github.com/onsi/ginkgo/v2 v2.23.4
 	github.com/onsi/gomega v1.38.0
+	google.golang.org/protobuf v1.36.6
 )
 
 require (
