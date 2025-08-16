@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package api.v1alpha1;
+
+import "google/protobuf/empty.proto";
+
+option go_package = "github.com/nokamoto/shogithink/pkg/api/v1alpha1;v1alpha1";
+
+service ShogiService {
+  rpc Position(PositionRequest) returns (google.protobuf.Empty);
+  rpc Think(ThinkRequest) returns (BestMove);
+}
+
+message PositionRequest {
+  string position = 1;
+}
+
+message ThinkRequest {
+  int32 btime = 1;
+  int32 wtime = 2;
+  int32 byoyomi = 3;
+  int32 nodes = 4;
+  int32 mate = 5;
+}
+
+message BestMove {
+  string bestmove = 1;
+}
