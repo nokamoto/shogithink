@@ -201,9 +201,9 @@ const file_api_v1alpha1_shogi_proto_rawDesc = "" +
 	"\x05nodes\x18\x04 \x01(\x05R\x05nodes\x12\x12\n" +
 	"\x04mate\x18\x05 \x01(\x05R\x04mate\"&\n" +
 	"\bBestMove\x12\x1a\n" +
-	"\bbestmove\x18\x01 \x01(\tR\bbestmove2\x8f\x01\n" +
-	"\fShogiService\x12B\n" +
-	"\tPosistion\x12\x1d.api.v1alpha1.PositionRequest\x1a\x16.google.protobuf.Empty\x12;\n" +
+	"\bbestmove\x18\x01 \x01(\tR\bbestmove2\x8e\x01\n" +
+	"\fShogiService\x12A\n" +
+	"\bPosition\x12\x1d.api.v1alpha1.PositionRequest\x1a\x16.google.protobuf.Empty\x12;\n" +
 	"\x05Think\x12\x1a.api.v1alpha1.ThinkRequest\x1a\x16.api.v1alpha1.BestMoveB:Z8github.com/nokamoto/shogithink/pkg/api/v1alpha1;v1alpha1b\x06proto3"
 
 var (
@@ -226,9 +226,9 @@ var file_api_v1alpha1_shogi_proto_goTypes = []any{
 	(*emptypb.Empty)(nil),   // 3: google.protobuf.Empty
 }
 var file_api_v1alpha1_shogi_proto_depIdxs = []int32{
-	0, // 0: api.v1alpha1.ShogiService.Posistion:input_type -> api.v1alpha1.PositionRequest
+	0, // 0: api.v1alpha1.ShogiService.Position:input_type -> api.v1alpha1.PositionRequest
 	1, // 1: api.v1alpha1.ShogiService.Think:input_type -> api.v1alpha1.ThinkRequest
-	3, // 2: api.v1alpha1.ShogiService.Posistion:output_type -> google.protobuf.Empty
+	3, // 2: api.v1alpha1.ShogiService.Position:output_type -> google.protobuf.Empty
 	2, // 3: api.v1alpha1.ShogiService.Think:output_type -> api.v1alpha1.BestMove
 	2, // [2:4] is the sub-list for method output_type
 	0, // [0:2] is the sub-list for method input_type

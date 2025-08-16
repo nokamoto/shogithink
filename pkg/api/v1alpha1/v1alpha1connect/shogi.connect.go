@@ -35,15 +35,15 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
-	// ShogiServicePosistionProcedure is the fully-qualified name of the ShogiService's Posistion RPC.
-	ShogiServicePosistionProcedure = "/api.v1alpha1.ShogiService/Posistion"
+	// ShogiServicePositionProcedure is the fully-qualified name of the ShogiService's Position RPC.
+	ShogiServicePositionProcedure = "/api.v1alpha1.ShogiService/Position"
 	// ShogiServiceThinkProcedure is the fully-qualified name of the ShogiService's Think RPC.
 	ShogiServiceThinkProcedure = "/api.v1alpha1.ShogiService/Think"
 )
 
 // ShogiServiceClient is a client for the api.v1alpha1.ShogiService service.
 type ShogiServiceClient interface {
-	Posistion(context.Context, *connect.Request[v1alpha1.PositionRequest]) (*connect.Response[emptypb.Empty], error)
+	Position(context.Context, *connect.Request[v1alpha1.PositionRequest]) (*connect.Response[emptypb.Empty], error)
 	Think(context.Context, *connect.Request[v1alpha1.ThinkRequest]) (*connect.Response[v1alpha1.BestMove], error)
 }
 
@@ -58,10 +58,10 @@ func NewShogiServiceClient(httpClient connect.HTTPClient, baseURL string, opts .
 	baseURL = strings.TrimRight(baseURL, "/")
 	shogiServiceMethods := v1alpha1.File_api_v1alpha1_shogi_proto.Services().ByName("ShogiService").Methods()
 	return &shogiServiceClient{
-		posistion: connect.NewClient[v1alpha1.PositionRequest, emptypb.Empty](
+		position: connect.NewClient[v1alpha1.PositionRequest, emptypb.Empty](
 			httpClient,
-			baseURL+ShogiServicePosistionProcedure,
-			connect.WithSchema(shogiServiceMethods.ByName("Posistion")),
+			baseURL+ShogiServicePositionProcedure,
+			connect.WithSchema(shogiServiceMethods.ByName("Position")),
 			connect.WithClientOptions(opts...),
 		),
 		think: connect.NewClient[v1alpha1.ThinkRequest, v1alpha1.BestMove](
@@ -75,13 +75,13 @@ func NewShogiServiceClient(httpClient connect.HTTPClient, baseURL string, opts .
 
 // shogiServiceClient implements ShogiServiceClient.
 type shogiServiceClient struct {
-	posistion *connect.Client[v1alpha1.PositionRequest, emptypb.Empty]
-	think     *connect.Client[v1alpha1.ThinkRequest, v1alpha1.BestMove]
+	position *connect.Client[v1alpha1.PositionRequest, emptypb.Empty]
+	think    *connect.Client[v1alpha1.ThinkRequest, v1alpha1.BestMove]
 }
 
-// Posistion calls api.v1alpha1.ShogiService.Posistion.
-func (c *shogiServiceClient) Posistion(ctx context.Context, req *connect.Request[v1alpha1.PositionRequest]) (*connect.Response[emptypb.Empty], error) {
-	return c.posistion.CallUnary(ctx, req)
+// Position calls api.v1alpha1.ShogiService.Position.
+func (c *shogiServiceClient) Position(ctx context.Context, req *connect.Request[v1alpha1.PositionRequest]) (*connect.Response[emptypb.Empty], error) {
+	return c.position.CallUnary(ctx, req)
 }
 
 // Think calls api.v1alpha1.ShogiService.Think.
@@ -91,7 +91,7 @@ func (c *shogiServiceClient) Think(ctx context.Context, req *connect.Request[v1a
 
 // ShogiServiceHandler is an implementation of the api.v1alpha1.ShogiService service.
 type ShogiServiceHandler interface {
-	Posistion(context.Context, *connect.Request[v1alpha1.PositionRequest]) (*connect.Response[emptypb.Empty], error)
+	Position(context.Context, *connect.Request[v1alpha1.PositionRequest]) (*connect.Response[emptypb.Empty], error)
 	Think(context.Context, *connect.Request[v1alpha1.ThinkRequest]) (*connect.Response[v1alpha1.BestMove], error)
 }
 
@@ -102,10 +102,10 @@ type ShogiServiceHandler interface {
 // and JSON codecs. They also support gzip compression.
 func NewShogiServiceHandler(svc ShogiServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
 	shogiServiceMethods := v1alpha1.File_api_v1alpha1_shogi_proto.Services().ByName("ShogiService").Methods()
-	shogiServicePosistionHandler := connect.NewUnaryHandler(
-		ShogiServicePosistionProcedure,
-		svc.Posistion,
-		connect.WithSchema(shogiServiceMethods.ByName("Posistion")),
+	shogiServicePositionHandler := connect.NewUnaryHandler(
+		ShogiServicePositionProcedure,
+		svc.Position,
+		connect.WithSchema(shogiServiceMethods.ByName("Position")),
 		connect.WithHandlerOptions(opts...),
 	)
 	shogiServiceThinkHandler := connect.NewUnaryHandler(
@@ -116,8 +116,8 @@ func NewShogiServiceHandler(svc ShogiServiceHandler, opts ...connect.HandlerOpti
 	)
 	return "/api.v1alpha1.ShogiService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
-		case ShogiServicePosistionProcedure:
-			shogiServicePosistionHandler.ServeHTTP(w, r)
+		case ShogiServicePositionProcedure:
+			shogiServicePositionHandler.ServeHTTP(w, r)
 		case ShogiServiceThinkProcedure:
 			shogiServiceThinkHandler.ServeHTTP(w, r)
 		default:
@@ -129,8 +129,8 @@ func NewShogiServiceHandler(svc ShogiServiceHandler, opts ...connect.HandlerOpti
 // UnimplementedShogiServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedShogiServiceHandler struct{}
 
-func (UnimplementedShogiServiceHandler) Posistion(context.Context, *connect.Request[v1alpha1.PositionRequest]) (*connect.Response[emptypb.Empty], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("api.v1alpha1.ShogiService.Posistion is not implemented"))
+func (UnimplementedShogiServiceHandler) Position(context.Context, *connect.Request[v1alpha1.PositionRequest]) (*connect.Response[emptypb.Empty], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("api.v1alpha1.ShogiService.Position is not implemented"))
 }
 
 func (UnimplementedShogiServiceHandler) Think(context.Context, *connect.Request[v1alpha1.ThinkRequest]) (*connect.Response[v1alpha1.BestMove], error) {

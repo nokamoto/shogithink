@@ -7,7 +7,7 @@ import "google/protobuf/empty.proto";
 option go_package = "github.com/nokamoto/shogithink/pkg/api/v1alpha1;v1alpha1";
 
 service ShogiService {
-  rpc Posistion(PositionRequest) returns (google.protobuf.Empty);
+  rpc Position(PositionRequest) returns (google.protobuf.Empty);
   rpc Think(ThinkRequest) returns (BestMove);
 }
 
